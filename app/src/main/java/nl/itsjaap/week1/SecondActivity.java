@@ -1,11 +1,18 @@
 package nl.itsjaap.week1;
 
+import android.content.ContentValues;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import nl.itsjaap.week1.database.DatabaseHelper;
+import nl.itsjaap.week1.database.DatabaseInfo;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -18,10 +25,7 @@ public class SecondActivity extends AppCompatActivity {
             TextView tv = findViewById(R.id.textView);
             String userName = getIntent().getExtras().getString("userName");
             String password = getIntent().getExtras().getString("password");
-            tv.setText(userName + password);
-            Log.d("Error log", userName);
-
-
+            tv.setText(userName + "'s list");
 
             Context context = getApplicationContext();
             CharSequence text = "Welkom " + userName + "!";
@@ -30,5 +34,57 @@ public class SecondActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
+
+        Button addBtn = findViewById(R.id.addThingBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText newThing = findViewById(R.id.thingNameEditText);
+                String newThingName = newThing.getText().toString();
+
+                EditText newThingPrice = findViewById(R.id.thingPriceEditText);
+                String newThingPriceValue = newThingPrice.getText().toString();
+
+                if (newThingName.length() > 0 && newThingPriceValue.length() > 0) {
+
+                    // put items in the DB
+                    // make instance of DB helper
+                    DatabaseHelper dbHelper = DatabaseHelper.getHelper(getApplicationContext());
+                    // create class of DB values and assign values to every column
+                    ContentValues values = new ContentValues();
+                    values.put(DatabaseInfo.ItemColumn.NAME, newThingName);
+                    values.put(DatabaseInfo.ItemColumn.PRICE, newThingPriceValue);
+                    // insert the VALUES object into the DB
+                    dbHelper.insert(DatabaseInfo.ItemTable.ITEMTABLE, null, values);
+
+                    // show toast with success of save
+                    Context context = getApplicationContext();
+                    CharSequence text = newThingName + " is saved.";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "Please enter both a name and a price!";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
+            }
+        });
+
+        Button viewBtn = findViewById(R.id.seeThingsBtn);
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(), ListActivity.class);
+                // start extra screen
+                startActivity(startIntent);
+            }
+        });
+
+
     }
 }

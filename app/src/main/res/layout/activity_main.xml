@@ -10,7 +10,7 @@
         android:id="@+id/secectActivityBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="152dp"
         android:text="Login"
         app:layout_constraintBottom_toTopOf="@+id/internetBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,13 +30,13 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Wachtwoord"
         android:inputType="text|textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/secectActivityBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -54,4 +54,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.83" />
+
 </android.support.constraint.ConstraintLayout>
