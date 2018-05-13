@@ -32,7 +32,7 @@ public class ListActivity extends AppCompatActivity {
             itemList.setText("");
             // Loop over all the items in the list and print them
             // HOE LOOP JE OVER EEN CURSOR
-            for (int i = 0 ; i < 2 ; i++) {
+            for (int i = 0 ; i < 4 ; i++) {
                 // Haalt de name uit de resultset
                 String name = (String) rs.getString(rs.getColumnIndex("name"));
                 String price = (String) rs.getString(rs.getColumnIndex("price"));

@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import nl.itsjaap.week1.database.DatabaseHelper;
 import nl.itsjaap.week1.database.DatabaseInfo;
 
@@ -82,6 +84,29 @@ public class SecondActivity extends AppCompatActivity {
                 Intent startIntent = new Intent(getApplicationContext(), ListActivity.class);
                 // start extra screen
                 startActivity(startIntent);
+            }
+        });
+
+        Button gsonBtn = findViewById(R.id.showJsonBtn);
+        gsonBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String json = "[{name: 'hammer', price: '345'},{name: 'cat', price: 'priceless'}]";
+
+                Gson gson = new Gson();
+
+                DatabaseHelper dbHelper = DatabaseHelper.getHelper(getApplicationContext());
+
+                // create instances of ItemModels
+                ItemModel[] items = gson.fromJson(json, ItemModel[].class);
+
+                // loop over the models and set them to the DB
+                for(ItemModel item : items) {
+                    ContentValues values = new ContentValues();
+                    values.put(DatabaseInfo.ItemColumn.NAME, item.getName());
+                    values.put(DatabaseInfo.ItemColumn.PRICE, item.getPrice());
+                    dbHelper.insert(DatabaseInfo.ItemTable.ITEMTABLE, null, values);
+                }
             }
         });
 
