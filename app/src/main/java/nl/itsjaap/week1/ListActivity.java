@@ -19,26 +19,26 @@ public class ListActivity extends AppCompatActivity {
         DatabaseHelper dbHelper = DatabaseHelper.getHelper(getApplicationContext());
         Cursor rs = dbHelper.query(DatabaseInfo.ItemTable.ITEMTABLE, new String[]{"*"}, null, null, null, null, null);
 
-        rs.moveToFirst();   // Skip : de lege elementen vooraan de rij.
-                            // Maar : de rij kan nog steeds leeg zijn
-                            // Hoe : lossen we dit op ??
+        int listSize = rs.getCount();
 
-        // clear the placeholder text
-        TextView itemList = findViewById(R.id.itemList);
-
+        Log.d("Lines amount: ","" + listSize);
 
         // check if cursor isn't empty
-        if (true) {
+        if (listSize > 0) {
+            // clear the placeholder text
+            TextView itemList = findViewById(R.id.itemList);
             itemList.setText("");
+
+            rs.moveToFirst();
+
             // Loop over all the items in the list and print them
-            // HOE LOOP JE OVER EEN CURSOR
-            for (int i = 0 ; i < 4 ; i++) {
+            for (int i = 0 ; i < listSize ; i++) {
                 // Haalt de name uit de resultset
                 String name = (String) rs.getString(rs.getColumnIndex("name"));
                 String price = (String) rs.getString(rs.getColumnIndex("price"));
 
                 // put the first item on the screen
-                itemList.append("Itemname: " + name + " - Price: "+ price + "\n");
+                itemList.append("Itemname: " + name + "\nPrice: "+ price + "\n\n");
 
                 rs.moveToNext();
 
